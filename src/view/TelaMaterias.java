@@ -12,7 +12,11 @@ import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
-import controller.RadioMateriasController;
+import model.Materias;
+
+import controller.BotaoMateriasControllerImpl;
+import controller.ComboMateriasControllerImpl;
+import controller.RadioMateriasControllerImpl;
 
 public class TelaMaterias extends JFrame {
 
@@ -36,7 +40,6 @@ public class TelaMaterias extends JFrame {
 		});
 	}
 
-	@SuppressWarnings("rawtypes")
 	public TelaMaterias() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -106,16 +109,24 @@ public class TelaMaterias extends JFrame {
 		contentPane.add(lblMaterias);
 		lblMaterias.setVisible(false);
 		
-		JComboBox cbMaterias = new JComboBox();
+		JComboBox<Materias> cbMaterias = new JComboBox<Materias>();
 		cbMaterias.setBounds(105, 45, 319, 20);
 		contentPane.add(cbMaterias);
 		cbMaterias.setVisible(false);
 		
-		RadioMateriasController radioController = 
-				new RadioMateriasController(tfCodigo, tfNome, tfCargaHoraria, lblCodigo, lblNome, lblCargaHoraria, 
+		RadioMateriasControllerImpl radioController = 
+				new RadioMateriasControllerImpl(tfCodigo, tfNome, tfCargaHoraria, lblCodigo, lblNome, lblCargaHoraria, 
 						lblMaterias, rdbtnCadastrar, rdbtnEditar, rdbtnExcluir, btnEnviar, cbMaterias);
 		rdbtnCadastrar.addActionListener(radioController);
 		rdbtnEditar.addActionListener(radioController);
 		rdbtnExcluir.addActionListener(radioController);
+		
+		ComboMateriasControllerImpl cbMatController = 
+				new ComboMateriasControllerImpl(tfCodigo, tfNome, tfCargaHoraria, cbMaterias, rdbtnExcluir);
+		cbMaterias.addActionListener(cbMatController);
+		
+		BotaoMateriasControllerImpl btnMatController = 
+				new BotaoMateriasControllerImpl(tfCodigo, tfNome, tfCargaHoraria, rdbtnCadastrar, rdbtnEditar, rdbtnExcluir, cbMaterias);
+		btnEnviar.addActionListener(btnMatController);
 	}
 }

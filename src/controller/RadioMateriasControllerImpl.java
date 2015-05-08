@@ -2,26 +2,28 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-public class RadioMateriasController implements ActionListener{
+import model.Materias;
+
+public class RadioMateriasControllerImpl implements ActionListener{
 
 	JTextField tfCodigo, tfNome, tfCargaHoraria;
 	JLabel lblCodigo, lblNome, lblCargaHoraria, lblMaterias;
 	JRadioButton rdbtnCadastrar, rdbtnEditar, rdbtnExcluir;
 	JButton btnEnviar;
-	@SuppressWarnings("rawtypes")
-	JComboBox cbMaterias;
+	JComboBox<Materias> cbMaterias;
 	
-	@SuppressWarnings("rawtypes")
-	public RadioMateriasController(JTextField tfCodigo,JTextField tfNome,JTextField tfCargaHoraria,JLabel lblCodigo,
+	public RadioMateriasControllerImpl(JTextField tfCodigo,JTextField tfNome,JTextField tfCargaHoraria,JLabel lblCodigo,
 			JLabel lblNome, JLabel lblCargaHoraria, JLabel lblMaterias, JRadioButton rdbtnCadastrar,JRadioButton rdbtnEditar,
-			JRadioButton rdbtnExcluir, JButton btnEnviar, JComboBox cbMaterias){
+			JRadioButton rdbtnExcluir, JButton btnEnviar, JComboBox<Materias> cbMaterias){
 		this.tfCodigo = tfCodigo;
 		this.tfCargaHoraria = tfCargaHoraria;
 		this.tfNome = tfNome;
@@ -41,6 +43,15 @@ public class RadioMateriasController implements ActionListener{
 		if (rdbtnCadastrar.isSelected()){
 			montaTelaCadastro();
 		} else {
+			MateriasController matController = 
+					new MateriasControllerImpl(cbMaterias);
+			try {
+				matController.listaMaterias();
+			} catch (SQLException e1) {
+				JOptionPane.showMessageDialog(null, 
+						e1.getMessage(),"ERRO",
+						JOptionPane.ERROR_MESSAGE);
+			}
 			if (rdbtnEditar.isSelected()){
 				montaTelaEditar();
 			} else {
@@ -59,7 +70,6 @@ public class RadioMateriasController implements ActionListener{
 	
 	private void montaTelaCadastro(){
 		limpaCampos();
-		listaMaterias();
 		lblCodigo.setVisible(false);
 		tfCodigo.setVisible(false);
 		lblNome.setVisible(true);
@@ -73,7 +83,6 @@ public class RadioMateriasController implements ActionListener{
 	
 	private void montaTelaEditar(){
 		limpaCampos();
-		listaMaterias();
 		lblCodigo.setVisible(true);
 		tfCodigo.setVisible(true);
 		lblNome.setVisible(true);
@@ -87,7 +96,6 @@ public class RadioMateriasController implements ActionListener{
 	
 	private void montaTelaExcluir(){
 		limpaCampos();
-		listaMaterias();
 		lblCodigo.setVisible(false);
 		tfCodigo.setVisible(false);
 		lblNome.setVisible(false);
@@ -99,10 +107,4 @@ public class RadioMateriasController implements ActionListener{
 		cbMaterias.setVisible(true);
 	}
 	
-	private void listaMaterias() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 }
