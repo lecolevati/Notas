@@ -20,7 +20,7 @@ public class GenericDaoImpl implements GenericDao {
 					.getConnection(
 							"jdbc:jtds:sqlserver://127.0.0.1:1433;DatabaseName=aulajoin10;namedPipe=true",
 							"sa", "1234");
-			System.out.println("Conexao ok");
+//			System.out.println("Conexao ok");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
